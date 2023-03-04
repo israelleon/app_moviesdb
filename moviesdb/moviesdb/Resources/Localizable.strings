@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  moviesdb
+
+  Created by Israel Alejandro Dzul León on 04/03/23.
+  
+*/
+
+"login.placeholder.username" = "Username";
+"login.placeholder.password" = "Password";
+"login.btn.title" = "Log In";
+
+
