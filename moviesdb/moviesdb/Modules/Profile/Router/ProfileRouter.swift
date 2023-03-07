@@ -13,5 +13,10 @@ final class ProfileRouter: RouterProtocol {
 }
 
 extension ProfileRouter: ProfileRouterPresenterProtocol {
-    
+    func presentMovieDetails(movieId: Int) {
+        let controller = MovieDetailModule(movieId: movieId).build()
+        DispatchQueue.main.async { [weak viewController] in
+            viewController?.present(controller, animated: true)
+        }
+    }
 }

@@ -18,10 +18,17 @@ extension MovieDetailPresenter: MovieDetailPresenterRouterProtocol {
 
 extension MovieDetailPresenter: MovieDetailPresenterViewProtocol {
     func start() {
-        // TODO: complete logic here.
+        view.renderMovieDetail(entity: MovieDetailEntity(isLoading: true, sections: []))
+        interactor.fetchMoviewDetail()
     }
 }
 
 extension MovieDetailPresenter: MovieDetailPresenterInteractorProtocol {
+    func successFetchMovieDetail(entity: MovieDetailEntity) {
+        view.renderMovieDetail(entity: entity)
+    }
     
+    func failureFetchMovieDetail() {
+        view.renderMovieDetail(entity: MovieDetailEntity(isFailure: true, isLoading: false ,sections: []))
+    }
 }

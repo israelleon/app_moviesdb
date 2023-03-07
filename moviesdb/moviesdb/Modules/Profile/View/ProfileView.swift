@@ -7,13 +7,20 @@
 
 import UIKit
 
+fileprivate struct Constants {
+    static let title = "profile.title"
+}
+
 class ProfileView: UIViewController, ViewProtocol {
     var presenter: ProfilePresenterViewProtocol!
-    private var uiView = MoviesViewUI()
+    
+    private var uiView = ProfileViewUI()
+    private var object: ProfileEntity?
     
     override func loadView() {
-       // TODO: complete here
-        title = "Profile"
+        title = Constants.title
+        uiView.datasource = self
+        uiView.delegate = self
         view = uiView
     }
     
@@ -24,5 +31,22 @@ class ProfileView: UIViewController, ViewProtocol {
 }
 
 extension ProfileView: ProfileViewPresenterProtocol {
-    // handle response of presenter.
+    func renderBy(entity: ProfileEntity) {
+        object = entity
+        DispatchQueue.main.async { [weak uiView] in
+            uiView?.reload()
+        }
+    }
+}
+
+extension ProfileView: ProfileViewUIDelegate {
+    func didSelectItem(id: Int) {
+        presenter.presentMovieDetail(id: id)
+    }
+}
+
+extension ProfileView: ProfileViewUIDatasource {
+    func objectFor(view: ProfileViewUI) -> ProfileEntity? {
+        return object
+    }
 }

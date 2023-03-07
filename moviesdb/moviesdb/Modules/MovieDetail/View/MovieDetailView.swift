@@ -10,10 +10,11 @@ import UIKit
 class MovieDetailView: UIViewController, ViewProtocol {
     var presenter: MovieDetailPresenterViewProtocol!
     private var uiView = MovieDetailViewUI()
+    private var object: MovieDetailEntity?
     
     override func loadView() {
-       // TODO: complete here
-        title = "Movies Details"
+        uiView.datasource = self
+        uiView.delegate = self
         view = uiView
     }
     
@@ -24,5 +25,20 @@ class MovieDetailView: UIViewController, ViewProtocol {
 }
 
 extension MovieDetailView: MovieDetailViewPresenterProtocol {
-    // handle response of presenter.
+    func renderMovieDetail(entity: MovieDetailEntity) {
+        object = entity
+        DispatchQueue.main.async { [weak uiView] in
+            uiView?.reload()
+        }
+    }
+}
+
+extension MovieDetailView: MovieDetailViewUIDatasource {
+    func objectFor(view: MovieDetailViewUI) -> MovieDetailEntity? {
+       return object
+    }
+}
+
+extension MovieDetailView: MovieDetailViewUIDelegate {
+    
 }

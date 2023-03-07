@@ -13,5 +13,17 @@ final class LoginRouter: RouterProtocol {
 }
 
 extension LoginRouter: LoginRouterPresenterProtocol {
+    func showLoading() {
+        viewController?.presentLoader()
+    }
     
+    func hideLoading() {
+        viewController?.dismiss(animated: true)
+    }
+    
+    func presentMovies() {
+        guard let window = viewController?.view.window else { return }
+        window.rootViewController = MoviesModule().build()
+        window.makeKeyAndVisible()
+    }
 }

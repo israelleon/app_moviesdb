@@ -8,8 +8,9 @@
 import Foundation
 
 struct LoginEntity: EntityProtocol {
+    var username: String?
     var error: String?
     var loading: Bool?
-    var isValid: Bool?
-    var finishi: Bool
+    static let passwordLength: Int = 2
+    static let usernameLength: Int = 2
 }

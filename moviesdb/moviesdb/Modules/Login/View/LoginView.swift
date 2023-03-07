@@ -20,7 +20,6 @@ class LoginView: UIViewController, ViewProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter.start()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -31,12 +30,19 @@ class LoginView: UIViewController, ViewProtocol {
 // MARK: Protocols
 
 extension LoginView: LoginViewPresenterProtocol {
-    // handle response of presenter.
+    func render(with entity: LoginEntity) {
+        object = entity
+        DispatchQueue.main.async { [weak uiView] in
+            uiView?.realodData()
+        }
+    }
 }
 
 
 extension LoginView: LoginViewUIDelegate {
-   // view events.
+    func didChangeFormValue(username: String, password: String) {
+        presenter.performLogin(username: username, password: password)
+    }
 }
 
 extension LoginView: LoginViewUIDataSource {

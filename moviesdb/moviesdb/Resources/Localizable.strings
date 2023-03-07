@@ -9,5 +9,24 @@
 "login.placeholder.username" = "Username";
 "login.placeholder.password" = "Password";
 "login.btn.title" = "Log In";
+"login.error.password" = "The password is required";
+"login.error.username" = "The username is required";
+"login.error.invalid_credentials" = "Invalid user and password. You did not provide a valid login";
+
+"movies.title" = "TV Shows";
+"movies.category.one" = "Popular";
+"movies.category.two" = "Top Rated";
+"movies.category.three" = "On TV";
+"movies.category.four" = "Airing Today";
+"movies.profile" = "View Profile";
+"movies.logout" = "Log out";
+"movies.cancel" = "Cancel";
+"movies.message" = "What do you want to do?";
+
+"profile.section" = "Favorite Shows";
+"profile.title" = "Profile";
 
 
+"movieDetail.overview" = "Overview";
+"movieDetail.airDate" = "Date";
+"movieDetail.genres" = "Genres";

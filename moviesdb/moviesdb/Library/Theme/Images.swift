@@ -9,7 +9,8 @@ import UIKit
 
 extension UIImage {
     enum Assets: String {
-       case logo = "Logo"
+        case logo = "Logo"
+        case avatar = "Avatar"
     }
     
     convenience init?(assets: Assets) {
@@ -17,6 +18,8 @@ extension UIImage {
     }
     
     static let logo = UIImage(assets: .logo)
-    static let starIcon = UIImage(systemName: "star")?.withRenderingMode(.alwaysTemplate)
-    static let starFullIcon = UIImage(systemName: "start.fill")?.withRenderingMode(.alwaysTemplate)
+    static let avatar = UIImage(assets: .avatar)
+    static let starIcon = UIImage(systemName: "star", withConfiguration: UIImage.SymbolConfiguration(weight: .regular))?.withRenderingMode(.alwaysTemplate)
+    static let starFullIcon = UIImage(systemName: "start.fill", withConfiguration: UIImage.SymbolConfiguration(weight: .regular))?.withRenderingMode(.alwaysTemplate)
+    static let listBullet = UIImage(systemName: "list.bullet")?.withRenderingMode(.alwaysTemplate)
 }

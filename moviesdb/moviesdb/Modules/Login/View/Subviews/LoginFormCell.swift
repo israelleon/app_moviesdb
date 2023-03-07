@@ -28,7 +28,19 @@ fileprivate struct LoginFormConstants {
     static var errorEdgeInset = UIEdgeInsets(top: 16, left: 16, bottom: -8, right: -16)
 }
 
+protocol LoginFormDelegate: AnyObject {
+    func didPressedLoginButton(username: String, password: String)
+}
+
 class LoginFormCell: UITableViewCell, ReusableView {
+    
+    weak var delegate: LoginFormDelegate?
+    private var object: LoginEntity? {
+        didSet {
+            setupUI()
+            setupConstraints()
+        }
+    }
     
     private lazy var usernameTextField: UITextField = {
         let textField = UITextField()
@@ -61,8 +73,6 @@ class LoginFormCell: UITableViewCell, ReusableView {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(LoginFormConstants.buttonTitle, for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.setTitleColor(.white, for: .disabled)
-//        button.backgroundColor = .buttonInactive
         button.backgroundColor = .buttonActive
         button.addTarget(self, action: #selector(didPressedLoginButton(_:)), for: .touchUpInside)
         return button
@@ -74,7 +84,6 @@ class LoginFormCell: UITableViewCell, ReusableView {
         label.textColor = .red
         label.numberOfLines = LoginFormConstants.errorNumberOfLine
         label.textAlignment = .center
-        label.text = "Ha ocurrido un error inesperado, ha ocurrido un error inesperado "
         return label
     }()
     
@@ -96,8 +105,9 @@ class LoginFormCell: UITableViewCell, ReusableView {
     }()
     
     func configure(object: LoginEntity?) {
-        setupUI()
-        setupConstraints()
+        self.object = object
+        usernameTextField.text = object?.username
+        errorLabel.text = object?.error
     }
     
     private func setupUI() {
@@ -129,7 +139,10 @@ class LoginFormCell: UITableViewCell, ReusableView {
     
     @objc func didPressedLoginButton(_ sender: UIButton) {
         contentView.endEditing(true)
-       // TODO: complete logic here.
+        delegate?.didPressedLoginButton(
+            username: usernameTextField.text ?? "",
+            password: passwordTextField.text ?? ""
+        )
     }
 }
 
@@ -142,7 +155,6 @@ extension LoginFormCell: UITextFieldDelegate {
             passwordTextField.becomeFirstResponder()
         case passwordTextField:
             passwordTextField.resignFirstResponder()
-            // TODO: call to service maybe
         default: break
         }
         return true

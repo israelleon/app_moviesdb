@@ -8,7 +8,7 @@
 import UIKit
 
 protocol LoginViewUIDelegate: AnyObject {
-    
+    func didChangeFormValue(username: String, password: String)
 }
 
 protocol LoginViewUIDataSource: AnyObject {
@@ -21,13 +21,19 @@ class LoginViewUI: UIView {
     
     weak var delegate: LoginViewUIDelegate?
     weak var dataSource: LoginViewUIDataSource?
-    private var object: LoginEntity?
+    private var object: LoginEntity? {
+        didSet {
+            DispatchQueue.main.async { [weak tableView] in
+                tableView?.reloadData()
+            }
+        }
+    }
    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = .clear
-        tableView.register(LoginFormCell.self, forCellReuseIdentifier: LoginFormCell.reuseIdentifier)
+        tableView.registerCell(LoginFormCell.self)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.allowsSelection = false
@@ -51,23 +57,16 @@ class LoginViewUI: UIView {
     }
     
     private func setupUI() {
+        subviews.forEach{ $0.removeFromSuperview() }
         addSubview(tableView)
     }
     
     private func setupContraints() {
-       // add constraints to subviews.
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            tableView.rightAnchor.constraint(equalTo: rightAnchor),
-            tableView.bottomAnchor.constraint(equalTo: bottomAnchor),
-        ])
+        tableView.fitTo(self)
     }
     
     func realodData() {
-        // realod the data and update the ui according to the new data.
-        // should update ui.
-        self.object = dataSource?.objectFor(view: self)
+        object = dataSource?.objectFor(view: self)
     }
 }
 
@@ -80,10 +79,15 @@ extension LoginViewUI: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { 1 }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: LoginFormCell.reuseIdentifier, for: indexPath) as? LoginFormCell else {
-            return UITableViewCell()
-        }
-        cell.configure(object: nil)
+        let cell: LoginFormCell = tableView.dequeueCell(at: indexPath)
+        cell.configure(object: object)
+        cell.delegate = self
         return cell
+    }
+}
+
+extension LoginViewUI: LoginFormDelegate {
+    func didPressedLoginButton(username: String, password: String) {
+        delegate?.didChangeFormValue(username: username, password: password)
     }
 }

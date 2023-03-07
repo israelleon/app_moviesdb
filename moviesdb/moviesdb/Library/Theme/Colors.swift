@@ -22,6 +22,9 @@ extension UIColor {
         case buttonInactive = "ButtonInactive"
         case buttonActive = "ButtonActive"
         case main = "Main"
+        case segmentedActive = "SegmentedActive"
+        case segmentedInactive = "SegmentedInactive"
+        case cardBackground = "CardBackground"
     }
     
     convenience init(style: Style) {
@@ -40,4 +43,7 @@ extension UIColor {
     static let buttonInactive = UIColor(style: .buttonInactive)
     static let buttonActive = UIColor(style: .buttonActive)
     static let main = UIColor(style: .main)
+    static let segmentedActive = UIColor(style: .segmentedActive)
+    static let segmentedInactive = UIColor(style: .segmentedInactive)
+    static let cardBackground = UIColor(style: .cardBackground )
 }

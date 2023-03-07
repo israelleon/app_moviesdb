@@ -10,20 +10,15 @@ import UIKit
 struct RateViewConstant {
     static let stackViewSpacing: CGFloat = 8
     static let textColor: UIColor = .main
-    static let iconWidth: CGFloat = 30
+    static let iconWidth: CGFloat = 12
 }
 
 class RateView: UIView {
     
-    private lazy var iconImageView: UIImageView =  {
-        let imageView = UIImageView.build(.starIcon)
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = RateViewConstant.textColor
-        return imageView
-    }()
-    
     private lazy var rateLabel: UILabel =  {
-        UILabel.build(textColor: RateViewConstant.textColor)
+        let label = UILabel.build(textColor: RateViewConstant.textColor)
+        label.font = UIFont.systemFont(ofSize: 12)
+        return label
     }()
     
     private lazy var stackView: UIStackView = {
@@ -33,13 +28,11 @@ class RateView: UIView {
     func configure(isFavorite: Bool = false, rate: String) {
         setupUI()
         setupConstraints()
-        iconImageView.image = isFavorite ? .starFullIcon : .starIcon
-        rateLabel.text = rate
+        rateLabel.text = rate.isEmpty ? rate : "★ \(rate)"
     }
     
     func setupUI() {
         subviews.forEach {$0.removeFromSuperview()}
-        stackView.addArrangedSubview(iconImageView)
         stackView.addArrangedSubview(rateLabel)
         addSubview(stackView)
     }
@@ -50,7 +43,6 @@ class RateView: UIView {
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            iconImageView.heightAnchor.constraint(equalToConstant: RateViewConstant.iconWidth),
         ])
     }
 }

@@ -17,11 +17,23 @@ extension ProfilePresenter: ProfilePresenterRouterProtocol {
 }
 
 extension ProfilePresenter: ProfilePresenterViewProtocol {
+    func presentMovieDetail(id: Int) {
+        
+        router.presentMovieDetails(movieId: id)
+    }
+    
     func start() {
-        // TODO: complete logic here.
+        interactor.fetchUserInfo()
+        interactor.fetchFavoriteTvShow()
     }
 }
 
 extension ProfilePresenter: ProfilePresenterInteractorProtocol {
+    func fetchTvShowFavorites(entity: ProfileEntity) {
+        view.renderBy(entity: entity)
+    }
     
+    func fetchUserInfo(entity: ProfileEntity) {
+        view.renderBy(entity: entity)
+    }
 }

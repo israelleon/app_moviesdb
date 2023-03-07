@@ -8,5 +8,10 @@
 import Foundation
 
 struct ProfileEntity: EntityProtocol {
+    var username: String?
+    var image: URL?
     
+    var category: MovieCategoryEntity?
 }
+
+
